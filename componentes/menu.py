@@ -2,14 +2,14 @@ import tkinter as tk
 from PIL import Image, ImageTk, ImageDraw, ImageFont
 
 class MenuPrincipal:
-    def __init__(self, master, largura, altura, callback_iniciar):
+    class MenuPrincipal:
+     def __init__(self, master, largura, altura, callback_iniciar):
         self.master = master
         self.largura = largura
         self.altura = altura
         self.callback_iniciar = callback_iniciar
         self.widgets = []
-
-        # Desenhar fundo e título
+        
         imagem_original = Image.open(r"C:\Users\Aluno\jogo2\imagens\background\telainicial\background.png")
         imagem_redimensionada = imagem_original.resize((largura, altura), Image.Resampling.LANCZOS)
         
@@ -21,14 +21,11 @@ class MenuPrincipal:
         desenho.text((100, 230), "RAVE", font=fonte2, fill="#b000ff")
         
         self.bg_image = ImageTk.PhotoImage(imagem_redimensionada)
-        
-        # Label de Fundo
         self.bg_label = tk.Label(master, image=self.bg_image)
         self.bg_label.place(x=0, y=0, width=largura, height=altura)
         self.widgets.append(self.bg_label)
 
-        # Criar Botões do Menu
-        self.criar_botao("▶ JOGAR", 440, self.callback_iniciar)
+        self.criar_botao("▶ JOGAR", 440, self.iniciar)
         self.criar_botao("⚙️ CONFIGURAÇÕES", 540, lambda: print("Configurações"))
         self.criar_botao("📖 INSTRUÇÕES", 640, lambda: print("Instruções"))
         self.criar_botao("⏼ SAIR", 740, master.destroy)
@@ -61,6 +58,10 @@ class MenuPrincipal:
 
     def mouse_entrou(self, e): e.widget.alvo = ("#8a00c4", "#ffffff"); self.animar_cor(e.widget, "#8a00c4", "#ffffff")
     def mouse_saiu(self, e): e.widget.alvo = ("#2E2E2E", "#ffffff"); self.animar_cor(e.widget, "#2E2E2E", "#ffffff")
+
+    def iniciar(self):
+        self.destruir()
+        self.callback_iniciar()
 
     def destruir(self):
         for widget in self.widgets:
